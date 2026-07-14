@@ -1,6 +1,4 @@
 node("image-builder") {
-  def dockerRepo = "docker.io/careromspersonal/clock-trigger:latest"
-
   container("podman") {
     stage("Prepare build environment") {
       sh '''
@@ -15,13 +13,16 @@ EOF
         export REGISTRY_AUTH_FILE="${HOME}/.config/containers/auth.json"
       '''
     }
-
-    stage("Build docker image") {
-      sh "podman build -t ${dockerRepo} ."
+    
+    stage("checkout") {
+      checkout scm
     }
 
-    stage("Push docker image") {
-      sh "podman push ${dockerRepo}"
+    stage("Build docker image") {
+      sh '''
+        podman pull docker.io/library/gcc:13
+        podman build -t docker.io/careromspersonal/clock-trigger:latest .
+      '''
     }
   }
 }
