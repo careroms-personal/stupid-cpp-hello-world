@@ -3,10 +3,10 @@ node("image-builder") {
     stage("Prepare build environment") {
       sh '''
         mkdir -p /kaniko/.docker
-        cat > /kaniko/.docker/config.json <<< "$PODMAN_AUTH"
+        printf '%s' "$PODMAN_AUTH" > /kaniko/.docker/config.json
       '''
     }
-    
+
     stage("checkout") {
       checkout scm
     }
