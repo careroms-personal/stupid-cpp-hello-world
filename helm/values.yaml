@@ -1,0 +1,16 @@
+replicaCount: 1
+
+image:
+  repository: careromspersonal/clock-trigger
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
