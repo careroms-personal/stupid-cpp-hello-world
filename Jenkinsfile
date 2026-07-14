@@ -13,11 +13,11 @@ node("image-builder") {
     }
 
     stage("Build docker image") {
-      sh "docker build ${dockerRepo} ."
+      sh "podman build ${dockerRepo} ."
     }
 
     stage("Push docker image") {
-      sh "docker push ${dockerRepo}"
+      sh "podman push ${dockerRepo}"
     }
   }
 }
