@@ -21,7 +21,7 @@ EOF
     stage("Build docker image") {
       sh '''
         podman pull docker.io/library/gcc:13
-        podman build -t docker.io/careromspersonal/clock-trigger:latest .
+        podman build --isolation=chroot -t docker.io/careromspersonal/clock-trigger:latest .
       '''
     }
   }
