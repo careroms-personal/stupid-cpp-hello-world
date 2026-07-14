@@ -20,7 +20,9 @@ node("image-builder") {
       '''
     }
   }
+}
 
+node("helm-deploy") {
   container("helm-deploy") {
     stage("Deploy with Helm") {
       sh "helm upgrade --namespace default --install schw ./"
