@@ -1,16 +1,9 @@
 node("image-builder") {
-  container("podman") {
+  container("kaniko") {
     stage("Prepare build environment") {
       sh '''
-        mkdir -p "${HOME}/.config/containers"
-        cat > "${HOME}/.config/containers/auth.json" <<< "$PODMAN_AUTH"
-        chmod 600 "${HOME}/.config/containers/auth.json"
-
-        cat > "${HOME}/.config/containers/registries.conf" <<EOF
-unqualified-search-registries = ["docker.io"]
-EOF
-
-        export REGISTRY_AUTH_FILE="${HOME}/.config/containers/auth.json"
+        mkdir -p /kaniko/.docker
+        cat > /kaniko/.docker/config.json <<< "$PODMAN_AUTH"
       '''
     }
     
@@ -20,8 +13,10 @@ EOF
 
     stage("Build docker image") {
       sh '''
-        podman pull docker.io/library/gcc:13
-        podman build --isolation=chroot -t docker.io/careromspersonal/clock-trigger:latest .
+        /kaniko/executor \
+          --context=`pwd` \
+          --dockerfile=Dockerfile \
+          --destination=docker.io/careromspersonal/clock-trigger:latest
       '''
     }
   }
