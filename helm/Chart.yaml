@@ -1,6 +1,0 @@
-apiVersion: v2
-name: clock-trigger
-description: A Helm chart for deploying the clock-trigger app
-type: application
-version: 0.1.0
-appVersion: "latest"
